@@ -76,7 +76,7 @@ local function PasteMap()
 	end
 
 	local map = file.Read("advdupe2/"..filename..".txt")
-	local success,dupe,info,moreinfo = AdvDupe2.Decode(map)
+	local success,dupe = AdvDupe2.Decode(map)
 	if not success then
 		print("[AdvDupe2Notify]\tCould not open map save "..dupe)
 		return
