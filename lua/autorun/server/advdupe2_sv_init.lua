@@ -58,9 +58,12 @@ CreateConVar("AdvDupe2_UpdateFilesDelay", "10", {FCVAR_ARCHIVE})
 CreateConVar("AdvDupe2_LoadMap", "0", {FCVAR_ARCHIVE})
 CreateConVar("AdvDupe2_MapFileName", "", {FCVAR_ARCHIVE})
 
+local cvLoadMap = GetConVar("AdvDupe2_LoadMap")
+local cvMapFileName = GetConVar("AdvDupe2_MapFileName")
+
 local function PasteMap()
-	if(GetConVarString("AdvDupe2_LoadMap")=="0")then return end
-	local filename = GetConVarString("AdvDupe2_MapFileName")
+	if(cvLoadMap:GetString()=="0")then return end
+	local filename = cvMapFileName:GetString()
 
 	if(not filename or filename == "")then
 		print("[AdvDupe2Notify]\tInvalid file name to loap map save.")
@@ -81,7 +84,7 @@ local function PasteMap()
 
 	local Tab = {Entities=dupe["Entities"], Constraints=dupe["Constraints"], HeadEnt=dupe["HeadEnt"]}
 	local Entities = AdvDupe2.duplicator.Paste(nil, table.Copy(Tab.Entities), Tab.Constraints, nil, nil, Tab.HeadEnt.Pos, true)
-	local maptype = GetConVarString("AdvDupe2_LoadMap")
+	local maptype = cvLoadMap:GetString()
 
 	if(maptype=="1")then
 		local PhysObj
