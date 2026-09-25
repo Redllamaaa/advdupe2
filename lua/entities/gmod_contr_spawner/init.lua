@@ -44,9 +44,7 @@ function ENT:Initialize()
 	end
 end
 
---[[
-	Sets options for this spawner
---]]
+-- Sets options for this spawner
 function ENT:SetOptions(ply, delay, undo_delay, key, undo_key, disgrav, disdrag, addvel, hideprops )
 
 	self.delay = delay
@@ -162,13 +160,15 @@ function ENT:DoSpawn( ply )
 		end
 	end
 
-	/*local AngleOffset = self.EntAngle
+	--[[
+	local AngleOffset = self.EntAngle
 	AngleOffset = self:GetAngles() - AngleOffset
 	local AngleOffset2 = Angle(0,0,0)
 	-- AngleOffset2.y = AngleOffset.y
 	AngleOffset2:RotateAroundAxis(self:GetUp(), AngleOffset.y)
 	AngleOffset2:RotateAroundAxis(self:GetRight(),AngleOffset.p)
-	AngleOffset2:RotateAroundAxis(self:GetForward(),AngleOffset.r)*/
+	AngleOffset2:RotateAroundAxis(self:GetForward(),AngleOffset.r)
+	--]]
 
 	local Ents, _ = AdvDupe2.duplicator.Paste(ply, self.EntityTable, self.ConstraintTable, nil, nil, Vector(0,0,0), true)
 	self.UndoList[ #self.UndoList + 1 ] = Ents
@@ -268,9 +268,7 @@ function ENT:ShowOutput()
 		)
 end
 
---[[
-	Handler for spawn keypad input
---]]
+-- Handler for spawn keypad input
 function SpawnContrSpawner( ply, ent )
 
 	if (not ent or not ent:IsValid()) then return end
@@ -287,9 +285,7 @@ function SpawnContrSpawner( ply, ent )
 	ent.LastSpawnTime=CurTime()+delay
 end
 
---[[
-	Handler for undo keypad input
---]]
+-- Handler for undo keypad input
 function UndoContrSpawner( ply, ent )
 	if (not ent or not ent:IsValid()) then return end
 	ent:DoUndo( ply, true )
