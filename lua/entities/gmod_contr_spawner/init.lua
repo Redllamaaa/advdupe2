@@ -6,7 +6,7 @@
 	Author: TB
 
 	Version: 1.0
-]]
+--]]
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
@@ -44,9 +44,9 @@ function ENT:Initialize()
 	end
 end
 
-/*-----------------------------------------------------------------------*
-* Sets options for this spawner
-*-----------------------------------------------------------------------*/
+--[[
+	Sets options for this spawner
+--]]
 function ENT:SetOptions(ply, delay, undo_delay, key, undo_key, disgrav, disdrag, addvel, hideprops )
 
 	self.delay = delay
@@ -268,9 +268,9 @@ function ENT:ShowOutput()
 		)
 end
 
-/*-----------------------------------------------------------------------*
-* Handler for spawn keypad input
-*-----------------------------------------------------------------------*/
+--[[
+	Handler for spawn keypad input
+--]]
 function SpawnContrSpawner( ply, ent )
 
 	if (not ent or not ent:IsValid()) then return end
@@ -287,9 +287,9 @@ function SpawnContrSpawner( ply, ent )
 	ent.LastSpawnTime=CurTime()+delay
 end
 
-/*-----------------------------------------------------------------------*
-* Handler for undo keypad input
-*-----------------------------------------------------------------------*/
+--[[
+	Handler for undo keypad input
+--]]
 function UndoContrSpawner( ply, ent )
 	if (not ent or not ent:IsValid()) then return end
 	ent:DoUndo( ply, true )
