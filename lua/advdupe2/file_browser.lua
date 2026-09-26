@@ -1122,6 +1122,8 @@ function PANEL:PerformLayout()
 	self.Help:SetPos(BtnX, 3)
 	BtnX = BtnX - self.Refresh:GetWide() - 5
 	self.Refresh:SetPos(BtnX, 3)
+	BtnX = BtnX - self.GlobalSearch:GetWide() - 5
+	self.GlobalSearch:SetPos(BtnX, 3)
 
 	BtnX = x - self.Submit:GetWide() - 15
 	self.Cancel:SetPos(BtnX, self.Browser:GetTall() + 20)
@@ -1207,6 +1209,50 @@ function PANEL:Init()
 	self.Refresh:SizeToContents()
 	self.Refresh:SetTooltip("Refresh Files")
 	self.Refresh.DoClick = function(button) UpdateClientFiles() end
+
+	self.GlobalSearch = vgui.Create("DImageButton", self)
+	self.GlobalSearch:SetMaterial("icon16/magnifier.png")
+	self.GlobalSearch:SizeToContents()
+	self.GlobalSearch:SetTooltip("Search All Directories")
+	self.GlobalSearch.DoClick = function(button)
+		self.Submit:SetMaterial("icon16/magnifier.png")
+		self.Submit:SetTooltip("Search Files")
+		if (self.FileName:GetValue() == "Folder_Name...") then
+			self.FileName:SetText("File_Name...")
+		end
+		self.Desc:SetVisible(false)
+		self.Info:SetVisible(false)
+		self.FileName.FirstChar = true
+		self.FileName.PrevText = self.FileName:GetValue()
+		self.FileName:SetVisible(true)
+		self.FileName:SelectAllOnFocus(true)
+		self.FileName:OnMousePressed()
+		self.FileName:RequestFocus()
+		self.Expanding = true
+		AdvDupe2.FileBrowser:Slide(true)
+		self.Submit.DoClick = function()
+			Search(self.Browser.pnlCanvas, string.lower(self.FileName:GetValue()))
+			AddHistory(self.FileName:GetValue())
+			self.FileName:SetVisible(false)
+			self.Submit:SetMaterial("icon16/arrow_undo.png")
+			self.Submit:SetTooltip("Return to Browser")
+			self.Info:SetVisible(true)
+			self.Info:SetText(#self.Search.pnlCanvas.Files ..' files found searching globally for, "' ..
+			self.FileName:GetValue() .. '"')
+			self.Info:SizeToContents()
+			self.Submit.DoClick = function()
+				self.Search:Remove()
+				self.Search = nil
+				self.Browser:SetVisible(true)
+				AdvDupe2.FileBrowser:Slide(false)
+				self.Cancel:SetVisible(true)
+			end
+			self.Cancel:SetVisible(false)
+		end
+		self.FileName.OnEnter = self.Submit.DoClick
+	end
+
+	self.Help = vgui.Create("DImageButton", self)
 
 	self.Help = vgui.Create("DImageButton", self)
 	self.Help:SetMaterial("icon16/help.png")
